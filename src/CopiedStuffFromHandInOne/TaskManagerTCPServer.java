@@ -41,6 +41,7 @@ public enum TaskManagerTCPServer {
     return calendar;
   }
 
+  @SuppressWarnings("resource")
   public void run(int port) {
     ServerSocket ss = null;
     try {
