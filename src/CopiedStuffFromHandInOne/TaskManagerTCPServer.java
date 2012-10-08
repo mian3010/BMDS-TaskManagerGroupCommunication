@@ -51,7 +51,8 @@ public enum TaskManagerTCPServer {
     }
     System.out.println("FileServer accepting connections on port " + port);
 
-    while (true) {
+    boolean run = true;
+    while (run) {
       try {
         // Listens for request. It stays on this line until a request is made to
         // the server
@@ -82,10 +83,15 @@ public enum TaskManagerTCPServer {
           e.printStackTrace();
           RequestParser.returnError(con, client);
         }
-        ss.close();
       } catch (IOException e) {
         System.err.println(e);
       }
+    }
+    try {
+      ss.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.exit(-1);
     }
   }
 
