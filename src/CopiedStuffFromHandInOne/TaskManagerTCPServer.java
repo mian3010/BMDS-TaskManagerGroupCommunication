@@ -41,7 +41,6 @@ public enum TaskManagerTCPServer {
     return calendar;
   }
 
-  @SuppressWarnings("resource")
   public void run(int port) {
     ServerSocket ss = null;
     try {
@@ -83,6 +82,7 @@ public enum TaskManagerTCPServer {
           e.printStackTrace();
           RequestParser.returnError(con, client);
         }
+        ss.close();
       } catch (IOException e) {
         System.err.println(e);
       }
