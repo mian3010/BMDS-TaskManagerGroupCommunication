@@ -127,7 +127,7 @@ public class JGroupHelper {
 	
 	/**
 	 * Returns every task in the JGroups current state
-	 * @return
+	 * @return Every task in the JGroups current state
 	 */
 	public TaskList getTasks() {
 		return taskListState;
