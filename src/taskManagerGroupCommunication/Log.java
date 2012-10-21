@@ -1,4 +1,4 @@
-package CopiedStuffFromHandInOne;
+package taskManagerGroupCommunication;
 
 import java.io.File;
 import java.io.IOException;

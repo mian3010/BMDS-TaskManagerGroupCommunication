@@ -1,4 +1,4 @@
-package utilzz;
+package utils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,6 +30,10 @@ import org.jgroups.protocols.pbcast.STATE_TRANSFER;
 import org.jgroups.stack.ProtocolStack;
 import org.jgroups.util.Util;
 
+import taskManagerGroupCommunication.Task;
+import taskManagerGroupCommunication.TaskList;
+
+
 /**
  * A helper class which provides an abstraction over the JGroup functionality
  * for assignment #3 in BMDS-2012
@@ -39,9 +43,11 @@ import org.jgroups.util.Util;
 public class JGroupHelper {
 	
 	public static void main(String[] args) {
+		//Small test example. Run concurrent instances of this application to test it.
 		JGroupHelper j = new JGroupHelper("BieberFeverGroup", "127.0.0.1", 51924);
-		Task t = new Task();
-		t.id = Integer.toString(new Random().nextInt(40));
+		
+		Task t = new Task(Integer.toString(new Random().nextInt(9999)), "Rick Astley", "TODAY", "Completed", "This is a Rick Roll", "The BieberFever team" );
+		
 		j.addTask(t);
 	}
 	
@@ -89,6 +95,10 @@ public class JGroupHelper {
 		}
 	}
 	
+	/**
+	 * Sends a task to every member of the JGroup
+	 * @param task The task to send
+	 */
 	public void addTask(Task task) {
 		Message msg=new Message(null, null, task);
 		try {
@@ -100,7 +110,10 @@ public class JGroupHelper {
 		}
 	}
 	
-	
+	/**
+	 * Sends a TaskList to every member of the JGroup
+	 * @param taskList The TaskList to send
+	 */
 	public void addTaskList(TaskList taskList) {
 		Message msg=new Message(null, null, taskList);
 		try {
@@ -112,6 +125,10 @@ public class JGroupHelper {
 		}
 	}
 	
+	/**
+	 * Returns every task in the JGroups current state
+	 * @return
+	 */
 	public TaskList getTasks() {
 		return taskListState;
 	}
@@ -126,56 +143,68 @@ public class JGroupHelper {
 	/**
 	 * Provides the receiver functionality for this assignment
 	 * @author BieberFever
-	 *
 	 */
 	private class JGroupEventHandler extends ReceiverAdapter {
+		/**
+		 * Called implicitly when a new member joins the group
+		 */
 		@Override
 		public void viewAccepted(View joiner) {
-		    System.out.println("Server joined group: " + joiner);
+		    System.out.println("> A new server joined the group");
 		}
 		
+		/**
+		 * Called implicitly upon receiving a message from the group
+		 * This implementation expects either a Task or a TaskList in the message
+		 */
 		@Override
 		public void receive(Message msg) {
-		    System.out.println("New task received. ID: " + ((Task)msg.getObject()).id);
+		    //If a Task was received
 		    if (msg.getObject() instanceof Task) {
 		    	Task t = (Task) msg.getObject();
+		    	System.out.println("> New task received. ID: " + t.id);
 		    	synchronized(taskListState) {
 		    		//add task if it isn't already in the state
-	    			if (!taskListState.getList().contains(t)){
-	    				taskListState.getList().add(t);
-	    			}
+	    			if (!taskListState.getList().contains(t)) taskListState.getList().add(t);
+	    			else System.out.println("> The Task already exists in current state"); 
 		        }
 		    }
+		    //If a TaskList was received
 		    else if (msg.getObject() instanceof TaskList) {
+		    	System.out.println("> New TaskList received");
 		    	synchronized(taskListState) {
 		    		for(Task t : ((TaskList)msg.getObject()).getList()) {
 		    			//add every task which isn't already in the state
 		    			if (!taskListState.getList().contains(t)) taskListState.getList().add(t);
+		    			else System.out.println("> A Task in the TaskList already exists in current state");
 		    		}
 		        }
-		    }
-		    else {
-		    	throw new IllegalArgumentException("The receiver only supports Task and TaskList objects");
-		    }
+		    } //Should never reach this, but added in case of future versions
+		    else throw new IllegalArgumentException("> The receiver only supports Task and TaskList objects");
+		   
+		    System.out.println("*** State updated. Now contains " + taskListState.getList().size() + " Tasks ***");
 		}
 		
-		
-		
+		/**
+		 * Called implicitly on the group's coordinator as part of the JChannel's getState() method.
+		 * Returns the current state of the JGroup in the given OutputStream
+		 */
 		@Override
 		public void getState(OutputStream output) throws Exception {
-			System.out.println("*GETTING STATE*");
 			synchronized(taskListState) {
 	            Util.objectToStream(taskListState, new DataOutputStream(output));
 	        }
 	    }
 		
+		/**
+		 * Called implicitly on the synchronizing member as part of the JChannel's getState() method.
+		 * Synchronizes the state based on the given InputStream
+		 */
 		@Override
 		public void setState(InputStream input)throws Exception {
-			System.out.println("*SYNCING STATE*");
 			TaskList t = (TaskList)Util.objectFromStream(new DataInputStream(input));
 	        synchronized(taskListState) {
 	            taskListState.getList().addAll(t.getList());
-	            System.out.println("*SYNCING COMPLETE: Task count: " + taskListState.getList().size() + "*");
 	        }
 	    }
 	}

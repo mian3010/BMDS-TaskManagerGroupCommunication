@@ -1,4 +1,4 @@
-package CopiedStuffFromHandInOne;
+package taskManagerGroupCommunication;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -138,7 +138,7 @@ public class TaskManagerTCPClient {
       System.out.println("Sending...");
       // Create task
       // ID is redefined by server
-      Task task = new Task(0, name, date, status, description, attendant);
+      DeprecatedTask task = new DeprecatedTask(0, name, date, status, description, attendant);
       // Save task
       try {
         dos.writeUTF("start");
@@ -212,9 +212,9 @@ public class TaskManagerTCPClient {
         e1.printStackTrace();
       }
       // Get task
-      Task task = null;
+      DeprecatedTask task = null;
       try {
-        task = (Task) ObjectMarshaller.getUnmarshaller(Task.class).unmarshal(dis);
+        task = (DeprecatedTask) ObjectMarshaller.getUnmarshaller(DeprecatedTask.class).unmarshal(dis);
       } catch (JAXBException e) {
         Log.error(e.getMessage());
       }
@@ -297,9 +297,9 @@ public class TaskManagerTCPClient {
       }
       if (req[0].equals("user")) {
         // Receive calendar with tasks
-        ArrayList<Task> tasks = null;
+        ArrayList<DeprecatedTask> tasks = null;
         try {
-          Calendar cal = (Calendar) ObjectMarshaller.getUnmarshaller(Calendar.class).unmarshal(is);
+          DeprecatedCalendar cal = (DeprecatedCalendar) ObjectMarshaller.getUnmarshaller(DeprecatedCalendar.class).unmarshal(is);
           tasks = cal.getTasks();
         } catch (JAXBException e) {
           Log.error(e.getMessage());
@@ -309,14 +309,14 @@ public class TaskManagerTCPClient {
           if (tasks.size() == 0)
             System.out.println("No tasks");
           else {
-            for (Task task : tasks) {
+            for (DeprecatedTask task : tasks) {
               System.out.println("\n" + task);
             }
           }
         }
       } else if (req[0].equals("task")) {
         try {
-          Task task = (Task) ObjectMarshaller.getUnmarshaller(Task.class).unmarshal(is);
+          DeprecatedTask task = (DeprecatedTask) ObjectMarshaller.getUnmarshaller(DeprecatedTask.class).unmarshal(is);
           System.out.println(task);
         } catch (JAXBException e) {
           Log.error(e.getMessage());

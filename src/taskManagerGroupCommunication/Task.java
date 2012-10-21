@@ -1,4 +1,4 @@
-package utilzz;
+package taskManagerGroupCommunication;
 
 import java.io.Serializable;
 
@@ -8,11 +8,32 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 /**
  * JAXB class - task-element
- * @author BieberFever (based on codesnippet by rao)
+ * This class is based on a code snippet by Rao and follows his structure with public fields.
+ * We have added another constructor and some equality measurements
+ * @author BieberFever (based on code snippet by rao)
  */
     @XmlRootElement(name = "task")
     public class Task implements Serializable{
-
+    	private static final long serialVersionUID = 7526472295622771337L;
+    	
+    	/**
+    	 * An alternative to the empty constructor in Rao's code snippet
+    	 * @param id The ID of the Task
+    	 * @param name The name of the Task
+    	 * @param date The date of the Task
+    	 * @param status The status of the Task
+    	 * @param description The description of the Task
+    	 * @param attendants The attendants of the Task
+    	 */
+    	public Task(String id, String name, String date, String status, String description, String attendants){
+    		this.id = id;
+    		this.name = name;
+    		this.date = date;
+    		this.status = status;
+    		this.description = description;
+    		this.attendants = attendants;
+    	}
+    	
         @XmlID
         @XmlAttribute
         public String id;

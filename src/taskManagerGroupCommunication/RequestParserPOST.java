@@ -1,4 +1,4 @@
-package CopiedStuffFromHandInOne;
+package taskManagerGroupCommunication;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -20,7 +20,7 @@ public class RequestParserPOST extends RequestParser {
 
   public void parseRequest(String request) throws IOException {
     try {
-      Task task = (Task) ObjectMarshaller.getUnmarshaller(Task.class).unmarshal(is);
+      DeprecatedTask task = (DeprecatedTask) ObjectMarshaller.getUnmarshaller(DeprecatedTask.class).unmarshal(is);
       task.setRightId();
       TaskManagerTCPServer.INSTANCE.getCalendar().addTask(task);
       TaskManagerTCPServer.log(source, "POST: Added task with id "+task.getId()+" for user "+task.getAttendantid());

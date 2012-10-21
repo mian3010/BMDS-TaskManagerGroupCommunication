@@ -1,4 +1,4 @@
-package CopiedStuffFromHandInOne;
+package taskManagerGroupCommunication;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "task")
 @XmlType(propOrder={"id", "attendantid", "name", "date", "status", "description"})
-public class Task {
+public class DeprecatedTask {
 
 	private int id, attendantid;
 	private String name, date, status, description;
@@ -16,9 +16,9 @@ public class Task {
 	 * Creates an object in an unstable state, but is used by XML Reflection generation.
 	 */
 	@SuppressWarnings("unused")
-  private Task() {}
+  private DeprecatedTask() {}
 	
-	public Task(int id, String name, String date, String status, String description,int attendantid) {
+	public DeprecatedTask(int id, String name, String date, String status, String description,int attendantid) {
 		this.id = id;
 		this.name = name;
 		this.date = date;
@@ -28,7 +28,7 @@ public class Task {
 		if (highestId < id) highestId = id;
 	}
 	
-	public Task(String name, String date, String status, String description,int attendantid) {
+	public DeprecatedTask(String name, String date, String status, String description,int attendantid) {
 	  this.id = ++highestId;
     this.name = name;
     this.date = date;
@@ -115,8 +115,8 @@ public class Task {
 	 */
 	public boolean equals(Object o) {
 		if(this == o) return true;
-		if(o instanceof Task) {
-			Task t = (Task)o;
+		if(o instanceof DeprecatedTask) {
+			DeprecatedTask t = (DeprecatedTask)o;
 			if(t.getId() == getId()) return true;
 		}
 		return false;

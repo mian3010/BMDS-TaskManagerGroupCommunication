@@ -1,4 +1,4 @@
-package utilzz;
+package utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -6,6 +6,10 @@ import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+
+import taskManagerGroupCommunication.Task;
+import taskManagerGroupCommunication.TaskList;
+
 
 /**
  * Util class for converting xml to Task objects and vice versa

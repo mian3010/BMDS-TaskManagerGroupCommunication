@@ -1,4 +1,4 @@
-package CopiedStuffFromHandInOne;
+package taskManagerGroupCommunication;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "user")
 @XmlType(propOrder={"id", "name", "password"})
-public class User {
+public class DeprecatedUser {
 	private static int highestId = 0;
 	
 	private String name, password;
@@ -16,9 +16,9 @@ public class User {
 	 * Creates an object in an unstable state, but is used by XML Reflection generation.
 	 */
 	@SuppressWarnings("unused")
-  private User() {}
+  private DeprecatedUser() {}
 	
-	public User(String name, String password) {
+	public DeprecatedUser(String name, String password) {
 		this.name = name;
 		this.password = password;
 		this.userId = ++highestId;
@@ -62,8 +62,8 @@ public class User {
 	 */
 	public boolean equals(Object o) {
 		if(this == o) return true;
-		if(o instanceof User) {
-			User u = (User)o;
+		if(o instanceof DeprecatedUser) {
+			DeprecatedUser u = (DeprecatedUser)o;
 			if(u.getId() == getId()) return true;
 		}
 		return false;

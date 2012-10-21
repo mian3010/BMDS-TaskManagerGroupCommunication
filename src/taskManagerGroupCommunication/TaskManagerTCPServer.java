@@ -1,4 +1,4 @@
-package CopiedStuffFromHandInOne;
+package taskManagerGroupCommunication;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -21,7 +21,7 @@ import javax.xml.bind.JAXBException;
 public enum TaskManagerTCPServer {
   INSTANCE;
   
-  private Calendar calendar = new Calendar();
+  private DeprecatedCalendar calendar = new DeprecatedCalendar();
   public static File calendarfile = new File("calendar.xml");
 
   /**
@@ -30,14 +30,14 @@ public enum TaskManagerTCPServer {
    */
   public static void main(String[] args) {
     try {
-      TaskManagerTCPServer.INSTANCE.calendar = Calendar.loadCalendar(calendarfile);
+      TaskManagerTCPServer.INSTANCE.calendar = DeprecatedCalendar.loadCalendar(calendarfile);
       TaskManagerTCPServer.INSTANCE.run(7896);
     } catch (JAXBException|IOException e) {
       System.out.println("Could not load or create calendar file: "+e);
     }
   }
   
-  public Calendar getCalendar() {
+  public DeprecatedCalendar getCalendar() {
     return calendar;
   }
 
