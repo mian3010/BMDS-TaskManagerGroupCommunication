@@ -68,7 +68,7 @@ public class TaskClient {
 		boolean illiterate = true;
 		while(illiterate) {
 			String s = sc.nextLine();
-			switch(s) {
+			switch(s.toUpperCase()) {
 				case("GET"):
 					illiterate = false;
 					getTasks();
