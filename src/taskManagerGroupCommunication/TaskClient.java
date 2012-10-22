@@ -6,12 +6,23 @@ import java.util.Scanner;
 
 import utils.JGroupHelper;
 
+/**
+ * A simple (and rude) console client sending tasks and tasklists over
+ * JGroups.
+ * @author BIEBERFEVER<3
+ *
+ */
 public class TaskClient {
 	private static Scanner sc;
 	private static boolean quit = false;
 	private static JGroupHelper groupHelper;
 	private static TaskList sabotage;
 	
+	/**
+	 * This is the main method, which is where the first things are instantiated before
+	 * entering a loop which displayed the menu.
+	 * @param args not used
+	 */
 	public static void main(String[] args) {
 		/******************************
 		 * SECRET SABOTAGE CREATION!! *
@@ -62,6 +73,10 @@ public class TaskClient {
 		groupHelper.close();
 	}
 	
+	/**
+	 * The menu. Prints availible commands, then waits for input and sends user in the
+	 * correct direction.
+	 */
 	public static void menuInteract() {
 		System.out.println("GET|ADD|ADDLIST|QUIT");
 		
@@ -94,6 +109,9 @@ public class TaskClient {
 		}
 	}
 	
+	/**
+	 * Gets the tasks state and prints them to the user.
+	 */
 	public static void getTasks() {
 		System.out.println();
 		System.out.println("OK SO YOU WANNA GET THEM TASKS? OK.");
@@ -112,6 +130,9 @@ public class TaskClient {
 		System.out.println();
 	}
 	
+	/**
+	 * Adds a task by prompting the user each step of the way, then sends it to the group.
+	 */
 	public static void addTask() {
 		System.out.println();
 		System.out.println("OK, ADDING TASKS... HERE'S HOW IT GOES. I NAME AN ATTRIBUTE, YOU NAME THE VALUE, OK?");
@@ -133,6 +154,9 @@ public class TaskClient {
 		System.out.println();
 	}
 	
+	/**
+	 * SURPRISE! Adds a TaskList (pre-created) and sends it to the group.
+	 */
 	public static void addTaskList() {
 		System.out.println();
 		System.out.println("OH IM SORRY. DID YOU THINK I WOULD LET YOU ADD A LIST?");
