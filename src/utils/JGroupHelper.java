@@ -148,7 +148,6 @@ public class JGroupHelper {
 		 */
 		@Override
 		public void viewAccepted(View joiner) {
-		    System.out.println("> A new server joined the group");
 		}
 		
 		/**
@@ -163,24 +162,20 @@ public class JGroupHelper {
 		    	System.out.println("> New task received. ID: " + t.id);
 		    	synchronized(taskListState) {
 		    		//add task if it isn't already in the state
-	    			if (!taskListState.getList().contains(t)) taskListState.getList().add(t);
-	    			else System.out.println("> The Task already exists in current state"); 
+	    			if (!taskListState.getList().contains(t)) taskListState.getList().add(t); 
 		        }
 		    }
 		    //If a TaskList was received
 		    else if (msg.getObject() instanceof TaskList) {
-		    	System.out.println("> New TaskList received");
 		    	synchronized(taskListState) {
 		    		for(Task t : ((TaskList)msg.getObject()).getList()) {
 		    			//add every task which isn't already in the state
 		    			if (!taskListState.getList().contains(t)) taskListState.getList().add(t);
-		    			else System.out.println("> A Task in the TaskList already exists in current state");
 		    		}
 		        }
 		    } //Should never reach this, but added in case of future versions
 		    else throw new IllegalArgumentException("> The receiver only supports Task and TaskList objects");
 		   
-		    System.out.println("*** State updated. Now contains " + taskListState.getList().size() + " Tasks ***");
 		}
 		
 		/**
