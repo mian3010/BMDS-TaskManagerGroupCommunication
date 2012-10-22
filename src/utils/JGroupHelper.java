@@ -45,9 +45,7 @@ public class JGroupHelper {
 	public static void main(String[] args) {
 		//Small test example. Run concurrent instances of this application to test it.
 		JGroupHelper j = new JGroupHelper("BieberFeverGroup", "127.0.0.1", 51924);
-		
 		Task t = new Task(Integer.toString(new Random().nextInt(9999)), "Rick Astley", "TODAY", "Completed", "This is a Rick Roll", "The BieberFever team" );
-		
 		j.addTask(t);
 	}
 	
