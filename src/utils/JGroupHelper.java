@@ -128,7 +128,14 @@ public class JGroupHelper {
 	 * @return Every task in the JGroups current state
 	 */
 	public TaskList getTasks() {
-		return taskListState;
+		//Creates a copy of the state.
+		//This is needed in order to make it impossible to change state from the outside by manipulating the returned object
+		TaskList temp = new TaskList();
+		synchronized(taskListState) {
+			for(Task t : taskListState.getList())
+				temp.getList().add(t);
+		}
+		return temp;
 	}
 	
 	/**
